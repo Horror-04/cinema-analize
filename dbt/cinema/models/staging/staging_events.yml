@@ -1,0 +1,53 @@
+version: 2
+
+sources:
+  - name: my_database
+    database: my_database
+    schema: my_database
+    tables:
+      - name: events_from_postgres
+        description: "Сырые события просмотров из Postgres (логическая репликация через PostgreSQL-ENGINE)"
+        columns:
+          - name: event_id
+            description: "PK события"
+            tests:
+              - not_null
+              - unique
+          - name: user_id
+            description: "ID пользователя"
+            tests:
+              - not_null
+          - name: movie_id
+            description: "ID фильма"
+            tests:
+              - not_null
+          - name: event_type
+            description: "Тип события: start, pause, finish"
+          - name: event_time
+            description: "Время события (DateTime)"
+            tests:
+              - not_null
+
+models:
+  - name: staging_events
+    description: "Чистые события просмотров за последние 7 дней"
+    columns:
+      - name: event_id
+        description: "PK события"
+        tests:
+          - not_null
+          - unique
+      - name: user_id
+        description: "ID пользователя"
+        tests:
+          - not_null
+      - name: movie_id
+        description: "ID фильма"
+        tests:
+          - not_null
+      - name: event_type
+        description: "Тип события"
+      - name: event_timestamp
+        description: "Переименованное время события"
+        tests:
+          - not_null
